@@ -38,7 +38,7 @@ function totalPercentage()
 {
         for index in ${!Flip[@]}
         do
-                echo "Percent of $Flip[$index] => $(( ${Flip[$index]} * 100 / $numberOfCoinFlip)) %"
+		echo "Count and Percent of $Flip[$index] => $((${Flip[$index]})) , $(( ${Flip[$index]} * 100 / $numberOfCoinFlip)) %"
         done
 }
 
