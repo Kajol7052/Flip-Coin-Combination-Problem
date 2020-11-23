@@ -1,38 +1,47 @@
 #!/bin/bash/
 echo "Welcome to Flip Coin Combination Problem"
 
-#constants
-HEAD=0
+isHEAD=0
 
-#variables
-headCount=0
-tailCount=0
+echo "Enter number of coins : "
+read NUMBER_OF_COIN
 
-#Syntax to declare Dictionary
-declare -A singletFlip
+#to declare dictionary
+declare -A Flip
 
-#user input
-echo -n "Enter the number of times Coin Flip : "
+echo -n "Enter the number of Coin Flip : "
 read numberOfCoinFlip
 
-#to store head count and tail count in dictionary
-for(( count=0; count<$numberOfCoinFlip; count++ ))
-do
-	FlipCoin=$(( RANDOM % 2 ))
+#function to generate doublet,triplet upto n
+function coinFlipGenerator()
+{
+        for(( count=0;count<$numberOfCoinFlip;count++ ))
+        do
+                coin=""
+                for(( countCoin=0; countCoin<$NUMBER_OF_COIN; countCoin++ ))
+                do
+                        flipCoin=$((RANDOM%2))
+                        if [[ $flipCoin -eq $isHEAD ]]
+                        then
+                                coinSide+="H"
+                        else
+                                coinSide+="T"
+                        fi
+                done
+                ((Flip[$coinSide]++))
+                coinSide=""
+        done
+}
 
-	if [ $FlipCoin -eq $HEAD ]
-	then
-		singletFlip[HEAD]=$((++headCount))
-	else
-		singletFlip[TAIL]=$((++tailCount))
-	fi
-done
+#function to generate percentage
+function totalPercentage()
+{
+        for index in ${!Flip[@]}
+        do
+                echo "Percent of $Flip[$index] => $(( ${Flip[$index]} * 100 / $numberOfCoinFlip)) %"
+        done
+}
 
-#converting to percentage
-singletHeadPercentage=`echo "$(( $headCount * 100 / $numberOfCoinFlip ))"`
-singletTailPercentage=`echo "$(( $tailCount *100 / $numberOfCoinFlip ))"`
-
-#print count and percentage
-echo "Single Head Count: $headCount , Single Head Percentage : $singletHeadPercentage"
-echo "Single Tail Count: $tailCount , Single Tail Percentage : $singletTailPercentage"
+coinFlipGenerator
+totalPercentage
 
