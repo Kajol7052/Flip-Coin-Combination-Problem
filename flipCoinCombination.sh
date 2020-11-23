@@ -4,12 +4,35 @@ echo "Welcome to Flip Coin Combination Problem"
 #constants
 HEAD=0
 
-#UC-1 : Flip a coin and randomly display Head or Tail
+#variables
+headCount=0
+tailCount=0
 
-flipCoin=$((RANDOM%2))
-if [ $flipCoin == $HEAD ]
-then
-	echo "Head"
-else
-	echo "Tail"
-fi
+#Syntax to declare Dictionary
+declare -A singletFlip
+
+#user input
+echo -n "Enter the number of times Coin Flip : "
+read numberOfCoinFlip
+
+#to store head count and tail count in dictionary
+for(( count=0; count<$numberOfCoinFlip; count++ ))
+do
+	FlipCoin=$(( RANDOM % 2 ))
+
+	if [ $FlipCoin -eq $HEAD ]
+	then
+		singletFlip[HEAD]=$((++headCount))
+	else
+		singletFlip[TAIL]=$((++tailCount))
+	fi
+done
+
+#converting to percentage
+singletHeadPercentage=`echo "$(( $headCount * 100 / $numberOfCoinFlip ))"`
+singletTailPercentage=`echo "$(( $tailCount *100 / $numberOfCoinFlip ))"`
+
+#print count and percentage
+echo "Single Head Count: $headCount , Single Head Percentage : $singletHeadPercentage"
+echo "Single Tail Count: $tailCount , Single Tail Percentage : $singletTailPercentage"
+
